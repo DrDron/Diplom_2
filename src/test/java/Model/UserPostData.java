@@ -1,9 +1,9 @@
 package Model;
 
 public class UserPostData {
-    private String email;
-    private String password;
-    private String name;
+    public String email;
+    public String password;
+    public String name;
 
     public UserPostData(String email, String password, String name) {
         this.email = email;

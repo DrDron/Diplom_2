@@ -42,7 +42,7 @@ public class UserService {
     }
 
     @Step("Send PATCH request to /api/auth/user (Обновление информации о пользователе)")
-    public Response updateUserData(UserPostData data, String  accessToken){
+    public Response editUserData(UserPostData data, String  accessToken){
         return  given()
                 .header("authorization", "bearer " + accessToken)
                 .body(data)

@@ -13,13 +13,13 @@ import org.junit.runners.Parameterized;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 @RunWith(Parameterized.class)
-public class UserLogIn {
+public class UserLogInTest {
     private UserLogInData data;
     private Integer statusCode;
     private Boolean success;
     private String token;
 
-    public UserLogIn(UserLogInData data, Integer statusCode, Boolean success){
+    public UserLogInTest(UserLogInData data, Integer statusCode, Boolean success){
         this.data = data;
         this.statusCode = statusCode;
         this.success = success;
@@ -28,9 +28,9 @@ public class UserLogIn {
     @Parameterized.Parameters
     public static Object[][] getUserData() {
         return new Object[][]{
-                {new UserLogInData("users@test.ru","users@test.ru"), 200, true},
-                {new UserLogInData("@test.ru","users@test.ru"), 401, false},
-                {new UserLogInData("users@test.ru","@test.ru"), 401, false},
+                {new UserLogInData("testusers@test.ru","testusers@test.ru"), 200, true},
+                {new UserLogInData("@test.ru","testusers@test.ru"), 401, false},
+                {new UserLogInData("testusers@test.ru","@test.ru"), 401, false},
         };
     }
     UserService userService = new UserService();
@@ -38,7 +38,7 @@ public class UserLogIn {
     @Before
     public void setUp() {
         RestAssured.baseURI = "https://stellarburgers.nomoreparties.site/";
-        token = userService.createUser(new UserPostData("users@test.ru","users@test.ru","users@test.ru"))
+        token = userService.createUser(new UserPostData("testusers@test.ru","testusers@test.ru","testusers@test.ru"))
                 .then()
                 .extract().path("accessToken").toString().substring(6).trim();
     }

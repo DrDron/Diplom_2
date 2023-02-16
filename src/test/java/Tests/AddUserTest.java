@@ -11,12 +11,12 @@ import org.junit.runners.Parameterized;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 @RunWith(Parameterized.class)
-public class AddUser {
+public class AddUserTest {
     private UserPostData data;
     private Integer statusCode;
     private Boolean success;
 
-    public AddUser(UserPostData data, Integer statusCode, Boolean success){
+    public AddUserTest(UserPostData data, Integer statusCode, Boolean success){
         this.data = data;
         this.statusCode = statusCode;
         this.success = success;
@@ -25,7 +25,7 @@ public class AddUser {
     @Parameterized.Parameters
     public static Object[][] getUserData() {
         return new Object[][]{
-                {new UserPostData("users@test.ru","users@test.ru","users"), 200, true},
+                {new UserPostData("userss@test.ru","userss@test.ru","userss"), 200, true},
                 {new UserPostData("admin@test.ru","admin@test.ru","admin"), 403, false},
                 {new UserPostData("user1@test.ru","","admin"), 403, false},
                 {new UserPostData("user2@test.ru","admin@test.ru",""), 403, false},
@@ -49,6 +49,7 @@ public class AddUser {
                 .body("success", equalTo(success))
                 .extract().path("accessToken").toString().substring(6).trim();
 
+                userService.userLogOut(accessToken);
                 userService.deleteUser(accessToken);
         }
         else
@@ -58,4 +59,5 @@ public class AddUser {
                     .statusCode(statusCode)
                     .body("success", equalTo(success));
     }
+
 }
