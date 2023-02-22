@@ -47,21 +47,14 @@ public class EditUserTest {
         String accessToken = userService.createUser(userPostData)
                 .then()
                 .extract().path("accessToken").toString().substring(6).trim();
-        if (success){
-            userService.userLogIn(new UserLogInData("users@test.ru","users@test.ru"));
-            userService.editUserData(userEditData,accessToken)
-                    .then()
-                    .assertThat()
-                    .statusCode(statusCode)
-                    .body("success", equalTo(success));
+        if (success) {
+            userService.userLogIn(new UserLogInData("users@test.ru", "users@test.ru"));
         }
-        else{
-            userService.editUserData(userEditData,"")
-                    .then()
-                    .assertThat()
-                    .statusCode(statusCode)
-                    .body("success", equalTo(success));
-        }
+        userService.editUserData(userEditData, success ? accessToken : "")
+                .then()
+                .assertThat()
+                .statusCode(statusCode)
+                .body("success", equalTo(success));
 
         userService.userLogOut(accessToken);
         userService.deleteUser(accessToken);
